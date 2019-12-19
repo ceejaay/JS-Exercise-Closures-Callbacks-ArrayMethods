@@ -48,12 +48,35 @@ function processFirstItem(stringList, callback) {
  * [2] Invoking `processLength` passing `[]` and `(num) => "There are " + num`,
  * should return "There are 0".
 */
+processLength(['bar', 'baz'], n => n * 3)
+
+
+addPTag = (arr, cb) => {
+  return cb(arr)
+}
+
+
+function double(n) {
+ return n * 2
+}
+
+addPTag = (item) => {
+  return "<p>" + item + "</p>"
+}
+
+const array = [1, 2, 3]
+
+const words = ["hello", "world", "Lambda School"]
+console.log(words.map(addPTag))
+
+console.log(array.map(double))
 
 
 
 
 
-function processLength() {
+function processLength(arr, cb) {
+ return cb(arr.length)
 
 
   /* CODE HERE */
@@ -73,7 +96,8 @@ function processLength() {
  * Invoking `processLastItem` passing `['foo', 'bar']` and `(str) => str + str`,
  * should return 'barbar'.
 */
-function processLastItem() {
+function processLastItem(arr,cb ) {
+  return cb(arr[arr.length - 1])
   /* CODE HERE */
 }
 
@@ -95,6 +119,11 @@ function processLastItem() {
  * should return 1000.
 */
 function processSum(numberList, callback) {
+  let sum = 0
+    for(let i = 0; i<numberList.length; i++) {
+      sum += numberList[i]
+    }
+  return callback(sum)
 
   /* CODE HERE */
 }
@@ -117,15 +146,21 @@ function processSum(numberList, callback) {
  * [2] Invoking `processProduct` passing 25 and 0 and `(num) => num + 1000`,
  * should return 1000.
 */
+ processProduct(2, 3, n => n + 1000);
+ console.log( "the return of the callback", processProduct(2, 3, function(n){return n + 1000}))
 
 
  function multiply(number1, number2) {
+   return number1 * number2
  }
 
 function addOneThousand(number) {
+  return number + 1000
 }
 
 function processProduct(num1, num2, callback) {
+  const product = num1 * num2
+  return callback(product)
 
   /* CODE HERE */
 }
@@ -152,6 +187,7 @@ function processProduct(num1, num2, callback) {
     expect(processProduct(2, 3, n => n + 1000)).to.equal(1006);
 */
 function processContains(item, list, callback) {
+  return callback(list.includes(item))
   /* CODE HERE */
 }
 
@@ -175,6 +211,7 @@ function processContains(item, list, callback) {
  * should return 3.
 */
 function processDuplicateFree(list, callback) {
+  return callback(list.filter((item, index) => list.indexOf(item) === index))
   /* CODE HERE ONLY AFTER COMPLETING ALL OTHER TASKS */
 }
 
@@ -197,6 +234,11 @@ function processDuplicateFree(list, callback) {
  * The full names appear in the array in the same order the runners appear in the `runners` array.
 */
 function getFullNames(runners) {
+  const runnerNames = []
+  const names = runners.forEach(item => {
+    runnerNames.push(item.last_name + ", " +  item.first_name)
+  })
+  return runnerNames
 }
 
 /**
@@ -213,6 +255,7 @@ function getFullNames(runners) {
 */
 function firstNamesAllCaps(runners) {
   /* CODE HERE */
+  return runners.map(names => names.first_name.toUpperCase())
 }
 
 /**
@@ -229,6 +272,7 @@ function firstNamesAllCaps(runners) {
  * The runners in the array appear in the same order they appear in the `runners` array.
 */
 function getRunnersByTShirtSize(runners, shirtSize) {
+  return runners.filter(person => person.shirt_size === shirtSize)
   /* CODE HERE */
 }
 
@@ -243,6 +287,7 @@ function getRunnersByTShirtSize(runners, shirtSize) {
  * @returns a number which is the sum of the donations by all runners.
 */
 function tallyUpDonations(runners) {
+  return runners.reduce((acc, cur) => acc + cur.donation, 0)
   /* CODE HERE */
 }
 
@@ -264,9 +309,9 @@ function tallyUpDonations(runners) {
 */
 function counterMaker() {
   // BROKEN CODE STARTS
-  const count = 1;
-   function counter() {
-     ++count
+  let count = -1;
+  return function counter() {
+    return ++count
   }
   // BROKEN CODE ENDS
 }
@@ -294,6 +339,13 @@ function counterMaker() {
 */
 
 function counterMakerWithLimit(/* CODE HERE */) {
+  let count = -1;
+  return function counter() {
+    if(count >= 3) {
+      count = -1
+    }
+    return ++count
+  }
   /* CODE HERE */
 }
 
